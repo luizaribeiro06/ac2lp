@@ -6,80 +6,74 @@ import { ToastController, AlertController } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage {
-  valorPeso1: number=10;
-  valorPeso3: number=12;
-  valorPeso7: number=15;
-  valorPeso10: number=20;
+  valorPeso1: number=10; //menos de 1kg
+  valorPeso3: number=12; //1 a 3kg
+  valorPeso7: number=15; //4 a 7kg
+  valorPeso10: number=20; //8 a 10kg
   
   //DISTANCIA até 10km/h
-  valorFreteAM: number=15;
-  valorFrete2: number=10;
-  valorFrete5: number=5;
-
-  //DISTANCIA 11km/h até 25km/h
-  valorFrete22: number=15;
-  valorFrete52: number=10;
-  valorFrete72: number=5;
-
-  //DISTANCIA acima de 25km/h
-  valorFrete73: number=15; 
-  valorFrete15: number=10;
-  valorFrete25: number=5;
-
-  //ITEM até 3
-  valorFrete73: number=15; 
-  valorFrete15: number=10;
-  valorFrete25: number=5;
+  valorFreteAM: number=20; //amanhã
+  valorFrete2: number=15; //2 dias
+  valorFrete5: number=10; //5 dias
+  valorFrete7: number=5; //7 dias
 
   distancia: string='';
   peso: string='';
   resultado: number=0;
   item: string='';
   compra: string= '';
-  
+  frete: string='';
+
   constructor(
     //public toastController: ToastController, //são objetos //class letra MAISUCULA //objeto n pode ter msm nome class
-    public alertController: AlertController
+    public alertController:  AlertController
+
   ) {}
 
   
   calcular() { //ta chamando p executar as ações
 
-    if (this.peso=== 'homem'){
-      this.resultado=parseFloat(this.altura) *72.7 - 58;
-   
-    }else{
-      if(this.peso=== 'mulher'){
-        this.resultado=parseFloat(this.altura) *62.1 - 44.7; 
-        }
+    if (this.peso=== 'peso1' || this.peso=== 'peso3' || this.peso=== 'peso7' || this.peso=== 'peso10' && this.frete=== 'freteAM'){
+          this.resultado=parseFloat(this.peso) + (parseFloat(this.frete));
+      }
+    if (this.peso=== 'peso1' || this.peso=== 'peso3' || this.peso=== 'peso7' || this.peso=== 'peso10' && this.frete=== 'frete2'){
+          this.resultado=parseFloat(this.peso) + (parseFloat(this.frete));
+      }
+
+    if (this.peso=== 'peso1' || this.peso=== 'peso3' || this.peso=== 'peso7' || this.peso=== 'peso10' && this.frete=== 'frete5'){
+          this.resultado=parseFloat(this.peso) + (parseFloat(this.frete));
+      }
+          
+    if (this.peso=== 'peso1' || this.peso=== 'peso3' || this.peso=== 'peso7' || this.peso=== 'peso10' && this.frete=== 'frete7'){
+          this.resultado=parseFloat(this.peso) + (parseFloat(this.frete));
+      }
     }
- }
-  
- //esse vai ser p desconto
-verificar (){
+//itens
+}
+
+desconto (){
   if (this.item=== '1-3'){
     this.compra= parseFloat(this.resultado);
   }
 
-  if(this.radioSelecionada=== '4-7'){
+  if(this.item=== '4-7'){
     this.compra= parseFloat(this.resultado) - (parseFloat(this.compra) * 0.10);
   }
 
-  if(this.radioSelecionada==='ac8') {
+  if(this.item==='ac8') {
     this.compra= parseFloat(this.resultado )- (parseFloat(this.compra) * 0.15);
   }
-  
- this.exibirAlerta();
+  this.exibirAlerta(); 
 }
 
- async exibirAlerta() {
+  async exibirAlerta() {
    const alert = await this.alertController.create({
-    header: 'O valor da compra é: ', //cabeçalho
-    message: this.valorCompra.toString(), //msg caixinha
-    buttons: ['OK'] //config botoes
-    });
-    alert.present();
-  }
-
-}
+  header: 'O valor da sua compra é: ', //cabeçalho
+   message: this.compra.toString(), //msg caixinha
+  buttons: ['OK'] //config botoes
+  });
+   alert.present();
+ }
+  
